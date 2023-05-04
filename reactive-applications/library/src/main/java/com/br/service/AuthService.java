@@ -1,5 +1,4 @@
 package com.br.service;
-
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.service.annotation.GetExchange;
@@ -13,7 +12,5 @@ public interface AuthService {
 
     @PostExchange("/user")
     Mono<String> registryUser(@RequestBody UserService.UserRegister user);
-
-
 
 }

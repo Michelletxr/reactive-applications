@@ -6,6 +6,8 @@ import java.util.UUID;
 
 @Data
 @Document
+@AllArgsConstructor
+@NoArgsConstructor
 public class Book {
     @Id
     private UUID id;

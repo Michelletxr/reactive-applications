@@ -2,6 +2,7 @@ package com.br.controller;
 import com.br.model.Book;
 import com.br.model.Author;
 import com.br.service.BookService;
+import com.br.service.BookServiceCacheTemplate;
 import com.br.service.ThreadsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,9 +22,21 @@ public class BookController {
     @Autowired
     ThreadsService threadsService;
 
+    @Autowired
+    BookServiceCacheTemplate serviceCache;
     @GetMapping(value = "book")
     public Flux<Book.BookDto> findAllBooks(){
         return serviceBooks.findAll();
+    }
+
+    @GetMapping(value = "bookCache/{id}")
+    public Mono<Book> findBookIdCache(@PathVariable UUID id){
+        return serviceCache.get(id);
+    }
+
+    @DeleteMapping(value = "bookCache/{id}")
+    public Mono<Void> deleteBookCache(@PathVariable UUID id){
+        return serviceCache.delete(id);
     }
 
     @GetMapping(value = "/group")

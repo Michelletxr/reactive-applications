@@ -29,7 +29,7 @@ public class LoadData implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        List<Book> books = new ArrayList<>();
+       /* List<Book> books = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             books.add(new Book(UUID.randomUUID(), UUID.randomUUID(),
                     "livro_teste", "suspense", 10, 5));
@@ -39,7 +39,7 @@ public class LoadData implements CommandLineRunner {
         Flux<Book> booksFlux = (Flux<Book>) Flux.fromIterable(books)
                 .flatMap(bookRepository::save);
         booksFlux.thenMany(bookRepository.findAll())
-                .subscribe(System.out::println);
+                .subscribe(System.out::println);*/
         /**
         Flux<Book> booksFlux = (Flux<Book>) Flux.just(new Book(UUID.randomUUID(),
                 "livro_teste", "suspense", 10, 5))
