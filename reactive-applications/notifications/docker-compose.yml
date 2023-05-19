@@ -1,0 +1,39 @@
+version: '3.7'
+services:
+  notifications-service:
+    container_name: notifications-service
+    build: .
+    ports: 
+      - 8083:8083
+    environment:
+      spring.datasource.driver-class-name: org.postgresql.Driver
+      spring.datasource.username: postgres
+      spring.datasource.password: postgres
+      spring.datasource.url: jdbc:postgresql://notifications-db:5432/notifications_db
+      server.port: 8083
+    restart: unless-stopped
+    depends_on: 
+    - notifications-db
+    networks:
+      - virtual-lib
+      - notifications
+  notifications-db:
+    container_name: notifications-db
+    image: postgres
+    ports: 
+      - 5434:5432
+    environment:
+      POSTGRES_DB: notifications_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    restart: unless-stopped
+    networks:
+      - virtual_lib
+      - notifications
+
+networks:
+    notifications:
+      name: notifications_net
+    virtual_lib:
+      name: virtual_lib_net
+      external: true

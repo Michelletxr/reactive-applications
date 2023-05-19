@@ -1,0 +1,39 @@
+version: '3.7'
+services:
+  auth-service:
+    container_name: auth-service
+    build: .
+    ports: 
+      - 8082:8082
+    environment:
+      spring.datasource.driver-class-name: org.postgresql.Driver
+      spring.datasource.username: postgres
+      spring.datasource.password: postgres
+      spring.datasource.url: jdbc:postgresql://auth-db:5432/auth_db
+      server.port: 8082
+    restart: unless-stopped
+    depends_on: 
+    - auth-db
+    networks:
+      - auth
+      - virtual_lib
+  auth-db:
+    container_name: auth-db
+    image: postgres
+    ports: 
+      - 5433:5432
+    environment:
+      POSTGRES_DB: auth_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    restart: unless-stopped
+    networks:
+      - virtual_lib
+      - auth
+
+networks:
+  auth:
+    name: auth_net
+  virtual_lib:
+    name: virtual_lib_net
+    external: true
