@@ -17,7 +17,7 @@ public class ThreadsService {
     private ExecutorService executorService = Executors.newThreadPerTaskExecutor(new ThreadFactory() {
         @Override
         public Thread newThread(Runnable r) {
-            Thread t = Thread.ofVirtual().name("Virtual-Thread em acao Num:"+System.nanoTime()).unstarted(r);
+            Thread t = Thread.ofVirtual().name("Virtual-Thread em ação Num:"+System.nanoTime()).unstarted(r);
             //t.setDaemon(true);
             //t.setPriority(Thread.MIN_PRIORITY);
             return t;

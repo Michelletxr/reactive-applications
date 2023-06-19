@@ -1,9 +1,9 @@
 package com.br.service;
+import com.br.model.Author;
 import com.br.model.Book;
 import com.br.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import java.util.UUID;
@@ -30,8 +30,13 @@ public class BookService {
     public Mono<Book> findBookById(UUID id) {
         return bookRepository.findById(id);
     }
-    public Flux<Book> findAll() {
-        return bookRepository.findAll();
+    public Flux<Book.BookDto> findAll() {
+        return bookRepository.findAll()
+                .map(book->buildBoookToDto(book));
+    }
+
+    public Flux<Author> goupByUser_id(){
+        return bookRepository.groupById_user();
     }
     public Mono<Boolean> delete(UUID id) {
         return bookRepository.findById(id)
@@ -52,5 +57,13 @@ public class BookService {
 
     public Mono<Void> deleteAll() {
         return bookRepository.deleteAll();
+    }
+
+    private Book.BookDto buildBoookToDto(Book book){
+        return new Book.BookDto(book.getName(),
+                book.getId_user(),
+                book.getGenre(),
+                book.getNumberPages(),
+                book.getRating());
     }
 }

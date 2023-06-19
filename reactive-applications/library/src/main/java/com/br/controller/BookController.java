@@ -1,5 +1,6 @@
 package com.br.controller;
 import com.br.model.Book;
+import com.br.model.Author;
 import com.br.service.BookService;
 import com.br.service.ThreadsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,15 @@ public class BookController {
     @Autowired
     ThreadsService threadsService;
 
-    @GetMapping(value = "book", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<String> findAllBooks(){
-        return serviceBooks.findAll()
-                .map(e-> "livro: " + e.getName());
+    @GetMapping(value = "book")
+    public Flux<Book.BookDto> findAllBooks(){
+        return serviceBooks.findAll();
+    }
+
+    @GetMapping(value = "/group")
+    public Flux<Author> group(){
+        //tentativa de usar agreggation falied
+        return serviceBooks.goupByUser_id();
     }
 
     @GetMapping(value = "book/{id}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)

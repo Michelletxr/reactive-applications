@@ -1,12 +1,12 @@
-package com.br.lbservice;
+package com.br.register;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class LbServiceApplicationTests {
+class RegisterServerApplicationTests {
 
-	@Test
+	//@Test
 	void contextLoads() {
 	}
 

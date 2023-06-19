@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+//preciso terminar o chat
+//adicionar spring cloud
+//
 
 @Component
 public class LoadData implements CommandLineRunner {
@@ -28,7 +31,7 @@ public class LoadData implements CommandLineRunner {
 
         List<Book> books = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
-            books.add(new Book(UUID.randomUUID(), null,
+            books.add(new Book(UUID.randomUUID(), UUID.randomUUID(),
                     "livro_teste", "suspense", 10, 5));
 
         }
