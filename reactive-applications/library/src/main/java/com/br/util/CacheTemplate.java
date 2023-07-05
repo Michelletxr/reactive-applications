@@ -1,5 +1,6 @@
 package com.br.util;
 
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public abstract class CacheTemplate<KEY, ENTITY>  {
@@ -10,6 +11,17 @@ public abstract class CacheTemplate<KEY, ENTITY>  {
                                 .flatMap(e -> updateCache(key, e))
                 );
     }
+
+    public Flux<ENTITY> getAll(){
+        return getAllFromCache()
+                .switchIfEmpty(
+                        getAllFromSource()
+                );
+    }
+
+
+
+
     public Mono<ENTITY> update(KEY key, ENTITY entity){
         return updateSource(key, entity)
                 .flatMap(e -> deleteFromCache(key).thenReturn(e));
@@ -25,4 +37,13 @@ public abstract class CacheTemplate<KEY, ENTITY>  {
     abstract protected Mono<ENTITY> updateCache(KEY key, ENTITY entity);
     abstract protected Mono<Void> deleteFromSource(KEY key);
     abstract protected Mono<Void> deleteFromCache(KEY key);
+    abstract protected Flux<ENTITY> getAllFromCache();
+    abstract protected Flux<ENTITY> getAllFromSource();
+
+
+
+
+
+
+
 }

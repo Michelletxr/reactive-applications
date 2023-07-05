@@ -1,5 +1,4 @@
 package com.br.project.controller;
-
 import com.br.project.model.NotificationsModel;
 import com.br.project.service.NotificationsService;
 import org.springframework.beans.factory.annotation.Autowired;

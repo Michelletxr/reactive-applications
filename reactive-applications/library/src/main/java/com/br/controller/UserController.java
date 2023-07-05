@@ -18,6 +18,10 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @GetMapping( value = "auth-check", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Mono<String> authCheck(){
+        return userService.authCheck();
+    }
     @GetMapping( produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<UserModel> findAllUsers(){
         return userService.findAll();
@@ -27,6 +31,12 @@ public class UserController {
     public Mono<String> getUser(@PathVariable UUID id){
         return userService.getUser(id).doOnNext(e-> System.out.println("resultado" + e));
     }
+
+    @GetMapping(value="users", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<String> getAllUsers(){
+        return userService.getAllUsers();
+    }
+
 
     @PostMapping(value="register", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Mono<String> register(@RequestBody UserService.UserRegister user){

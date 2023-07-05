@@ -2,9 +2,8 @@ package com.br.controller;
 import com.br.model.Book;
 import com.br.model.Author;
 import com.br.service.BookService;
-import com.br.service.BookServiceCacheTemplate;
-import com.br.service.ThreadsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,24 +18,16 @@ import java.util.UUID;
 public class BookController {
     @Autowired
     BookService serviceBooks;
-    @Autowired
-    ThreadsService threadsService;
 
-    @Autowired
-    BookServiceCacheTemplate serviceCache;
+    @Value("${server.port}")
+    String port;
+    @GetMapping(value="portService")
+    public String check_instance() {
+        return String.format("library running instance in port %s", port);
+    }
     @GetMapping(value = "book")
     public Flux<Book.BookDto> findAllBooks(){
         return serviceBooks.findAll();
-    }
-
-    @GetMapping(value = "bookCache/{id}")
-    public Mono<Book> findBookIdCache(@PathVariable UUID id){
-        return serviceCache.get(id);
-    }
-
-    @DeleteMapping(value = "bookCache/{id}")
-    public Mono<Void> deleteBookCache(@PathVariable UUID id){
-        return serviceCache.delete(id);
     }
 
     @GetMapping(value = "/group")
@@ -73,11 +64,5 @@ public class BookController {
         return serviceBooks.deleteAll();
     }
 
-    @GetMapping(value = "book/threads", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<String> getBooksThreads(){
-       return threadsService.getBooksProjectLoom();
-   }
-    /***public Flux<String> getBooksThreads(){
-        return threadsService.getBooksParallel();
-    }**/
+
 }

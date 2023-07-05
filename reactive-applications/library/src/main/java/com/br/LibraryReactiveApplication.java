@@ -1,17 +1,16 @@
 package com.br;
-import org.redisson.Redisson;
-import org.redisson.api.RedissonReactiveClient;
-import org.redisson.config.Config;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.reactive.config.EnableWebFlux;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @SpringBootApplication
-@EnableDiscoveryClient
 @EnableWebFlux
+@EnableDiscoveryClient
 public class LibraryReactiveApplication {
 	//@Autowired
 	//private WebSocketHandler webSocketHandler;
@@ -19,15 +18,11 @@ public class LibraryReactiveApplication {
 		SpringApplication.run(LibraryReactiveApplication.class, args);
 	}
 
-	String instanceId;
-
-	String port;
-	@GetMapping("/instanceId")
-	public String check_instance() {
-		return String.format("Running instance %s in port %s", instanceId, port);
+	@Bean
+	@LoadBalanced
+	public WebClient.Builder loadBalancedWebClientBuilder() {
+		return WebClient.builder();
 	}
-
-
 /*	@Bean
 	public RouterFunction<ServerResponse> htmlRouter(
 			@Value("") Resource html) {

@@ -3,6 +3,7 @@ import com.br.auth.Service.AuthService;
 import com.br.auth.model.User;
 import com.br.auth.security.JWTConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,13 @@ public class AuthController {
     @Autowired
     private JWTConfig jwtConfig;
     record Login(String username, String password){}
+
+    @Value("${server.port}")
+    String port;
+    @GetMapping()
+    public String check_instance() {
+        return String.format("Auth running instance in port %s", port);
+    }
 
     @PostMapping(value= "/login", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Mono<ResponseEntity<String>> login(@RequestBody  Login login){

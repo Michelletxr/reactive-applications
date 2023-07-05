@@ -1,5 +1,4 @@
 package com.br.service;
-
 import com.br.model.UserModel;
 import com.br.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +9,14 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Sinks;
-
 import java.util.UUID;
 
 @Service
 public class UserService {
     @Autowired
-    WebClient webClientAuth  = WebClient.create("http://localhost:8082/api/auth");
+    WebClient webClientAuth  = WebClient.create("http://localhost:8080/auth-server");
     @Autowired
-    WebClient webClientMessage;
+    WebClient webClientMessage = WebClient.create("http://localhost:8080/messager-server-reactive");;
     HttpServiceProxyFactory httpServiceProxyFactoryAuth = HttpServiceProxyFactory
             .builder(WebClientAdapter.forClient(webClientAuth))
             .build();
@@ -32,7 +30,6 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-
     Sinks.One<Object> sinkone = Sinks.one();
 
     private String emailFrom = "michelle.teixeira.124@ufrn.edu.br";
@@ -42,38 +39,27 @@ public class UserService {
     public record UserRegister(String userName, String login, String password, String email){}
     public record SendEmail(String emailFrom, String emailTo, String title, String text){}
 
+    //checar serviço de autentificação
+    public Mono<String> authCheck(){
+        return authService.checkInstance();
+    };
+
     //mandar notificação de boas vindas
     public Mono<String> sendNotifications(String emailTo){
-
         return notificationService.sendNotifications(new SendEmail(emailFrom, emailTo, title, text));
-       /* return  this.webClientEmail.post()
-                .uri("http://localhost:8083/api/notifications/send-email")
-                .body(Mono.just(new SendEmail(emailFrom, emailTo, title, text)), SendEmail.class)
-                .retrieve()
-                .bodyToMono(String.class)
-                .doOnNext(e-> System.out.println(e));*/
     }
 
     //cadastro no sistema
     public Mono<String> registryUser(UserRegister user){
         return authService.registryUser(user);
-      /*  return this.webClientAuth.post()
-                .uri("http://localhost:8082/api/auth/user")
-                .body(Mono.just(user), UserRegister.class)
-                .retrieve()
-                .bodyToMono(String.class);*/
     }
 
     //pegar usuario no sistema
     public Mono<String> getUser(UUID id){
         return authService.getUser(id);
-       /* return this.webClientAuth
-                .get()
-                .uri("http://localhost:8082/api/auth/0118ab11-180c-4812-b433-04cb1663476b")
-                .retrieve()
-                .bodyToMono(String.class)
-                .doOnNext(e-> System.out.println("resultado1" + e));*/
     }
+
+    public Flux<String> getAllUsers(){ return authService.getAllUsers(); }
 
     public Flux<UserModel> findAll() {
         return userRepository.findAll();
