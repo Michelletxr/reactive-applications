@@ -4,6 +4,7 @@ import com.br.service.UserService;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -18,6 +19,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @CircuitBreaker(name= "circuitBreakerService", fallbackMethod = "fallbackCircuitBreaker")
     @GetMapping( value = "auth-check", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Mono<String> authCheck(){
         return userService.authCheck();
