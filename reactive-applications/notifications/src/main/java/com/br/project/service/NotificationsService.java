@@ -20,7 +20,7 @@ public class NotificationsService {
     public Mono<String> sendEmail(NotificationsModel.NotificationDto msg) {
 
         NotificationsModel email = new NotificationsModel(msg.emailFrom(),
-                msg.emailTo(), msg.text(), msg.title());
+                msg.emailTo(), msg.title(), msg.text());
         email.setSendDateEmail(LocalDateTime.now());
         Boolean send = null;
 

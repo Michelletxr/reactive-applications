@@ -36,7 +36,7 @@ public class AuthController {
     }
 
     @GetMapping(value = "user", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<User> findAllUsers(){
+    public Flux<Object> findAllUsers(){
         return service.findAll();
     }
 

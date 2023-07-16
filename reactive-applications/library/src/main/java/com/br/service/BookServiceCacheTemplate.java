@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
 import java.util.UUID;
 
 @Service
@@ -18,7 +17,6 @@ public class BookServiceCacheTemplate extends CacheTemplate<UUID, Book> {
     @Autowired
     BookRepository  repository;
     private RMapReactive<UUID, Book> map;
-
 
     public BookServiceCacheTemplate(RedissonReactiveClient client) {
        this.map = client.getMap("/books-asid", new TypedJsonJacksonCodec(UUID.class, Book.class));

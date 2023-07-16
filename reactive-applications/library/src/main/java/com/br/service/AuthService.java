@@ -11,10 +11,10 @@ public interface AuthService {
     @GetExchange("/api/auth/{id}")
     Mono<String> getUser(@PathVariable UUID id);
 
-    @GetExchange("/api/auth")
+    @GetExchange("/api/auth/user")
     Flux<String> getAllUsers();
 
-    @PostExchange("/user")
+    @PostExchange("/api/auth/user")
     Mono<String> registryUser(@RequestBody UserService.UserRegister user);
 
     @GetExchange("/api/auth")

@@ -16,6 +16,8 @@ public class UserModel {
     private String userName;
     private String email;
 
+    public UserModel(){}
+
     @Builder
     public UserModel(UUID id, String userName, String email) {
         this.id = id;

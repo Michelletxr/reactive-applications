@@ -55,7 +55,12 @@ public class AuthService {
                 .build();
     }
 
-    public Flux<User> findAll() {
-        return repository.findAll();
+    public Mono<UserResponse> buildUserResponse(Object user){
+        User userResponse = (User) user;
+        return Mono.just(new UserResponse(userResponse.getId(), userResponse.getUserName(), userResponse.getEmail()));
+    }
+
+    public Flux<Object> findAll() {
+        return repository.findAll().flatMap( e -> buildUserResponse(e));
     }
 }

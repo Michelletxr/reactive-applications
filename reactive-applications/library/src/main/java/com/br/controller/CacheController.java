@@ -1,13 +1,14 @@
 package com.br.controller;
 
 import com.br.model.Book;
+import com.br.model.UserModel;
 import com.br.service.BookServiceCacheTemplate;
 import com.br.service.BookServiceCacheTemplateClientSide;
+import com.br.service.UserCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
 import java.util.UUID;
 
 @RestController
@@ -19,6 +20,12 @@ public class CacheController {
 
     @Autowired
     BookServiceCacheTemplateClientSide serviceClientCache;
+
+    @Autowired
+    UserCache userCache;
+
+    @GetMapping(value = "userCache")
+    public Flux<UserModel> findAllUserCache(){return userCache.getAll();}
 
     //cache-aside
     @GetMapping(value = "bookCache")
