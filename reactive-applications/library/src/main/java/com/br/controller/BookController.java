@@ -30,12 +30,6 @@ public class BookController {
         return serviceBooks.findAll();
     }
 
-    @GetMapping(value = "/group")
-    public Flux<Author> group(){
-        //tentativa de usar agreggation falied
-        return serviceBooks.goupByUser_id();
-    }
-
     @GetMapping(value = "book/{id}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Mono<ResponseEntity> findBook(@PathVariable UUID id){
         return serviceBooks.findBookById(id)

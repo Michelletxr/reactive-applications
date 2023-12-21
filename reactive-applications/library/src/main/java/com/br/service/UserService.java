@@ -2,9 +2,8 @@ package com.br.service;
 import com.br.model.UserModel;
 import com.br.repository.UserRepository;
 import com.br.util.Supliers;
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.support.WebClientAdapter;
@@ -19,8 +18,6 @@ public class UserService {
     Supliers supliers;
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private StreamBridge streamBridge;
     @Autowired
     UserCache userCache;
     @Autowired
@@ -38,7 +35,8 @@ public class UserService {
     NotificationService notificationService = httpServiceProxyFactoryMessage
             .createClient(NotificationService.class);
 
-    private String emailFrom = "michelle.teixeira.124@ufrn.edu.br";
+    @Value("${EMAIL_SENDER}")
+    private String emailSender;
     private String title = "Registro de usuário";
     private String text= "Seja bem-vindo a livraria virtual!";
 
@@ -51,7 +49,7 @@ public class UserService {
     };
     //mandar notificação de boas vindas
     public Mono<String> sendNotifications(String emailTo){
-        return notificationService.sendNotifications(new SendEmail(emailFrom, emailTo, title, text));
+        return notificationService.sendNotifications(new SendEmail(emailSender, emailTo, title, text));
     }
     //cadastro no sistema
     public Mono<String> registryUser(UserRegister user){
@@ -72,7 +70,7 @@ public class UserService {
     }
 
     public Mono<Boolean> processNewUserMessage(String emailTo){
-        return supliers.processMessage(emailFrom, emailTo, title, text);
+        return supliers.processMessage(emailSender, emailTo, title, text);
     }
 
    // @CircuitBreaker(name= "circuitBreakerService", fallbackMethod = "fallbackCircuitBreaker")

@@ -15,6 +15,7 @@ public class BookService {
     public Mono<Book> save(Book book) {
         return bookRepository.save(book);
     }
+
     public Mono<Book> update(UUID id, Book.BookDto bookDto){
         return bookRepository.findById(id).flatMap( book -> {
             book.setName(bookDto.name());
@@ -35,9 +36,6 @@ public class BookService {
                 .map(book->buildBoookToDto(book));
     }
 
-    public Flux<Author> goupByUser_id(){
-        return bookRepository.groupById_user();
-    }
     public Mono<Boolean> delete(UUID id) {
         return bookRepository.findById(id)
                 .flatMap(book ->

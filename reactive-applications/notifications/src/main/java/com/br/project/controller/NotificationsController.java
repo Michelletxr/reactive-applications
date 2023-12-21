@@ -18,7 +18,7 @@ public class NotificationsController {
     }
 
     @GetMapping(value = "send-email" )
-    public Mono<String> createHello() {
+    public Mono<String> createMessagerServer() {
         return Mono.just("serviço para envio de email");
     }
 

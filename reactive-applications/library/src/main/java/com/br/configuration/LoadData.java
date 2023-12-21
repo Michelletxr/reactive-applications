@@ -7,14 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
-
-//preciso terminar o chat
-//adicionar spring cloud
-//
 
 @Component
 public class LoadData implements CommandLineRunner {
@@ -29,30 +27,33 @@ public class LoadData implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-       /* List<Book> books = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-            books.add(new Book(UUID.randomUUID(), UUID.randomUUID(),
-                    "livro_teste", "suspense", 10, 5));
+        List<Book> books = new ArrayList<>();
+        Flux<Book> bookFlux = bookRepository.findAll();
 
-        }
+        bookFlux.collectList()
+                .subscribe(bookList -> {
+                    if (bookList.isEmpty()) {
+                        books.add(new Book(UUID.randomUUID(), UUID.randomUUID(),
+                                "livro_1", "suspense", 10, 5));
+                        books.add(new Book(UUID.randomUUID(), UUID.randomUUID(),
+                                "livro_2", "suspense", 20, 10));
+                        books.add(new Book(UUID.randomUUID(), UUID.randomUUID(),
+                                "livro_3", "suspense", 30, 8));
+                        System.out.println("haaaa");
+                        Flux.fromIterable(books)
+                                .flatMap(bookRepository::save)
+                                .subscribe(); // Adiciona o subscribe para ativar a operação de salvamento
+                    } else {
+                        Flux.fromIterable(bookList)
+                                .doOnNext(book -> System.out.println(book))
+                                .subscribe();
+                    }
+                });
 
-        Flux<Book> booksFlux = (Flux<Book>) Flux.fromIterable(books)
-                .flatMap(bookRepository::save);
-        booksFlux.thenMany(bookRepository.findAll())
-                .subscribe(System.out::println);*/
-        /**
-        Flux<Book> booksFlux = (Flux<Book>) Flux.just(new Book(UUID.randomUUID(),
-                "livro_teste", "suspense", 10, 5))
-                .flatMap(bookRepository::save);
-        Mono<User> user = userService.getUser("root").flatMap(userRepository::save);
-
-        user.flatMap(user1 -> {
-            Flux.just(new Book(UUID.randomUUID(),
-                            "livro_teste", "suspense", 10, 5))
-                    .flatMap(bookRepository::save);
-        });
-        booksFlux.thenMany(bookRepository.findAll())
-                .subscribe(System.out::println);**/
 
     }
+
 }
+
+
+

@@ -55,7 +55,7 @@ public class UserController {
     @CircuitBreaker(name= "circuitBreakerService", fallbackMethod = "fallbackRegister")
     @Retry(name = "retryService", fallbackMethod = "fallbackRegister")
     @PostMapping(value="register", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Mono<Boolean> register(@RequestBody UserService.UserRegister user){
+    public Mono<String> register(@RequestBody UserService.UserRegister user){
         return userService.registryUser(user)
                 .flatMap(e-> {
                     try {
@@ -63,7 +63,8 @@ public class UserController {
                         String jsonString = e.replaceAll("data:", "");
                         UserModel object = gson.fromJson(jsonString, UserModel.class);
                         return userService.save(object)
-                                .then(userService.processNewUserMessage(user.email()));
+                                .then(userService.sendNotifications(user.email()))
+                                .then(Mono.just("Usuário "+object.getUserName()+ "registrado!"));
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
                     }
