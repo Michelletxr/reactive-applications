@@ -5,6 +5,6 @@ import org.springframework.web.service.annotation.PostExchange;
 import reactor.core.publisher.Mono;
 
 public interface NotificationService {
-    @PostExchange("/send-email")
+    @PostExchange("/api/notifications/send-email")
     Mono<String> sendNotifications(@RequestBody UserService.SendEmail emailTo);
 }

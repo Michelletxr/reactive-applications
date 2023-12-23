@@ -18,10 +18,8 @@ import java.util.UUID;
 public class LoadData implements CommandLineRunner {
     @Autowired
     BookRepository bookRepository;
-
     @Autowired
     UserService userService;
-
     @Autowired
     UserRepository userRepository;
     @Override

@@ -17,11 +17,10 @@ public class NotificationsController {
         return service.sendEmail(msg);
     }
 
-    @GetMapping(value = "send-email" )
+    @GetMapping
     public Mono<String> createMessagerServer() {
         return Mono.just("serviço para envio de email");
     }
-
 
 }
 

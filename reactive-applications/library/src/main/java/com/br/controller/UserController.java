@@ -1,6 +1,6 @@
 package com.br.controller;
 import com.br.model.UserModel;
-import com.br.service.UserCache;
+import com.br.service.UserServiceCache;
 import com.br.service.UserService;
 import com.google.gson.Gson;
 import io.github.resilience4j.retry.annotation.Retry;
@@ -20,9 +20,6 @@ public class UserController {
 
     @Autowired
     UserService userService;
-    @Autowired
-    UserCache userCache;
-
 
     @GetMapping(value="{id}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Mono<String> getUser(@PathVariable UUID id){
@@ -72,14 +69,8 @@ public class UserController {
     }
 
     public Mono<String> fallback(Throwable error){
-        System.out.println("falback test");
         return Mono.just("fallback: Serviço de autentificação insdisponível");
 
-    }
-
-    public Flux<UserModel> fallbackCache(Throwable error){
-        System.out.println("falback: carregando usuários do cache;");
-        return userCache.getAll();
     }
 
     public Mono<String> fallbackRegister(Throwable error){

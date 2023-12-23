@@ -19,9 +19,9 @@ public class RabbitMQConfig {
     NotificationsService service;
 
 
-    @Bean
+    /*@Bean
     public Consumer<NotificationsModel.NotificationDto> receive(){
         return str -> service.sendEmail(str).doOnNext(e -> System.out.println(e));
-    }
+    }*/
 
 }

@@ -26,7 +26,7 @@ public class NotificationsService {
 
         try{
             SimpleMailMessage message = new SimpleMailMessage();
-            message.setFrom(email.getEmailFrom());
+           // message.setFrom(email.getEmailFrom());
             message.setTo(email.getEmailTo());
             message.setSubject(email.getTitle());
             message.setText(email.getText());

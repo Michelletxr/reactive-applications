@@ -13,12 +13,12 @@ import reactor.core.publisher.Mono;
 import java.util.UUID;
 
 @Service
-public class BookServiceCacheTemplate extends CacheTemplate<UUID, Book> {
+public class BookServiceCache extends CacheTemplate<UUID, Book> {
     @Autowired
     BookRepository  repository;
     private RMapReactive<UUID, Book> map;
 
-    public BookServiceCacheTemplate(RedissonReactiveClient client) {
+    public BookServiceCache(RedissonReactiveClient client) {
        this.map = client.getMap("/books-asid", new TypedJsonJacksonCodec(UUID.class, Book.class));
 
     }

@@ -18,7 +18,7 @@ import reactor.core.publisher.Mono;
 import java.util.UUID;
 
 @Service
-public class UserCache extends CacheTemplate<UUID, UserModel> {
+public class UserServiceCache extends CacheTemplate<UUID, UserModel> {
     @Autowired
     WebClient webClientAuth  = WebClient.create("http://localhost:8080/auth-server");
     HttpServiceProxyFactory httpServiceProxyFactoryAuth = HttpServiceProxyFactory
@@ -32,7 +32,7 @@ public class UserCache extends CacheTemplate<UUID, UserModel> {
 
     private RMapReactive<UUID, UserModel> map;
 
-    public UserCache(RedissonReactiveClient client) {
+    public UserServiceCache(RedissonReactiveClient client) {
         this.map = client.getMap("/users-asid", new TypedJsonJacksonCodec(UUID.class, UserModel.class));
 
     }

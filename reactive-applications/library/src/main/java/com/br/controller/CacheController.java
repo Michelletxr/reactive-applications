@@ -2,9 +2,8 @@ package com.br.controller;
 
 import com.br.model.Book;
 import com.br.model.UserModel;
-import com.br.service.BookServiceCacheTemplate;
-import com.br.service.BookServiceCacheTemplateClientSide;
-import com.br.service.UserCache;
+import com.br.service.BookServiceCache;
+import com.br.service.UserServiceCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -16,43 +15,25 @@ import java.util.UUID;
 public class CacheController {
 
     @Autowired
-    BookServiceCacheTemplate serviceCache;
+    BookServiceCache bookServiceCache;
 
     @Autowired
-    BookServiceCacheTemplateClientSide serviceClientCache;
-
-    @Autowired
-    UserCache userCache;
+    UserServiceCache userServiceCache;
 
     @GetMapping(value = "userCache")
-    public Flux<UserModel> findAllUserCache(){return userCache.getAll();}
-
+    public Flux<UserModel> findAllUserCache(){return userServiceCache.getAll();}
     //cache-aside
     @GetMapping(value = "bookCache")
     public Flux<Book> findALlBookCache(){
-        return serviceCache.getAll();
+        return bookServiceCache.getAll();
     }
     @GetMapping(value = "bookCache/{id}")
     public Mono<Book> findBookIdCache(@PathVariable UUID id){
-        return serviceCache.get(id);
+        return bookServiceCache.get(id);
     }
-
     @DeleteMapping(value = "bookCache/{id}")
     public Mono<Void> deleteBookCache(@PathVariable UUID id){
-        return serviceCache.delete(id);
+        return bookServiceCache.delete(id);
     }
 
-    @GetMapping(value = "bookClientCache")
-    public Flux<Book> findALlBookClientCache(){
-        return serviceClientCache.getAll();
-    }
-    @GetMapping(value = "bookClientCache/{id}")
-    public Mono<Book> findBookIdClientCache(@PathVariable UUID id){
-        return serviceClientCache.get(id);
-    }
-
-    @DeleteMapping(value = "bookClientCache/{id}")
-    public Mono<Void> deleteBookClientCache(@PathVariable UUID id){
-        return serviceClientCache.delete(id);
-    }
 }

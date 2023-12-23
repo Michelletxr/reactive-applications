@@ -19,7 +19,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    UserCache userCache;
+    UserServiceCache userServiceCache;
     @Autowired
     WebClient webClientAuth  = WebClient.create("http://localhost:8080/auth-server");
     @Autowired
