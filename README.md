@@ -1,4 +1,4 @@
-# Reactive Applications
+Reactive Applications
 ## Descrição do projeto 
 <p align="justify">
 Projeto implementado na disciplina de Tópicos Especiais Em Engenharia De Software VIII, tendo como objetivo a elaboração de um sistema de microsserviços
@@ -6,5 +6,17 @@ baseado em programação reativa. Foram elaborados seis microsserviços, sendo t
   
 ![Captura de tela de 2023-12-23 16-17-54](https://github.com/Michelletxr/reactive-applications/assets/83671703/d468a849-c6ed-4705-bbc6-6433f5dc1a94)
 </p>
+
+## 🛠️ Ferramentas Utilizadas
+- Spring Reactive Web
+- Spring Data Reactive MongoDB
+- MongoDB
+- Redis
+- Java Mail Sender (envio de email)
+- WebClient  (comunicação cliente servidor)
+- Eureka Discovery Client
+- Cloud LoadBalancer
+
+
 
 
