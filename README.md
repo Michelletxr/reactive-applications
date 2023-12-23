@@ -8,6 +8,7 @@ baseado em programação reativa. Foram elaborados seis microsserviços, sendo t
 </p>
 
 ## 🛠️ Ferramentas Utilizadas
+- Java 17
 - Spring Reactive Web
 - Spring Data Reactive MongoDB
 - MongoDB
